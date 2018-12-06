@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="module_messenger" default="compile.module.messenger">
+  <dirname property="module.messenger.basedir" file="${ant.file.module_messenger}"/>
+  
+  <property name="module.jdk.home.messenger" value="${project.jdk.home}"/>
+  <property name="module.jdk.bin.messenger" value="${project.jdk.bin}"/>
+  <property name="module.jdk.classpath.messenger" value="${project.jdk.classpath}"/>
+  
+  <property name="compiler.args.messenger" value="-encoding UTF-8 -source 8 -target 8 ${compiler.args}"/>
+  
+  <property name="messenger.output.dir" value="${module.messenger.basedir}/out/production/Messenger"/>
+  <property name="messenger.testoutput.dir" value="${module.messenger.basedir}/out/test/Messenger"/>
+  
+  <path id="messenger.module.bootclasspath">
+    <!-- Paths to be included in compilation bootclasspath -->
+  </path>
+  
+  <path id="messenger.module.production.classpath">
+    <path refid="${module.jdk.classpath.messenger}"/>
+    <path refid="library.json-20180813.classpath"/>
+    <path refid="library.gson-2.8.5.classpath"/>
+    <path refid="library.arquillian_junit:release.classpath"/>
+    <path refid="library.system-rules-1.19.0.classpath"/>
+    <path refid="library.junit-4.13-beta-1.classpath"/>
+  </path>
+  
+  <path id="messenger.runtime.production.module.classpath">
+    <pathelement location="${messenger.output.dir}"/>
+    <path refid="library.json-20180813.classpath"/>
+    <path refid="library.gson-2.8.5.classpath"/>
+    <path refid="library.arquillian_junit:release.classpath"/>
+    <path refid="library.system-rules-1.19.0.classpath"/>
+    <path refid="library.junit-4.13-beta-1.classpath"/>
+  </path>
+  
+  <path id="messenger.module.classpath">
+    <path refid="${module.jdk.classpath.messenger}"/>
+    <pathelement location="${messenger.output.dir}"/>
+    <path refid="library.json-20180813.classpath"/>
+    <path refid="library.gson-2.8.5.classpath"/>
+    <path refid="library.arquillian_junit:release.classpath"/>
+    <path refid="library.system-rules-1.19.0.classpath"/>
+    <path refid="library.junit-4.13-beta-1.classpath"/>
+  </path>
+  
+  <path id="messenger.runtime.module.classpath">
+    <pathelement location="${messenger.testoutput.dir}"/>
+    <pathelement location="${messenger.output.dir}"/>
+    <path refid="library.json-20180813.classpath"/>
+    <path refid="library.gson-2.8.5.classpath"/>
+    <path refid="library.arquillian_junit:release.classpath"/>
+    <path refid="library.system-rules-1.19.0.classpath"/>
+    <path refid="library.junit-4.13-beta-1.classpath"/>
+  </path>
+  
+  
+  <patternset id="excluded.from.module.messenger">
+    <patternset refid="ignored.files"/>
+  </patternset>
+  
+  <patternset id="excluded.from.compilation.messenger">
+    <patternset refid="excluded.from.module.messenger"/>
+  </patternset>
+  
+  <path id="messenger.module.sourcepath">
+    <dirset dir="${module.messenger.basedir}">
+      <include name="src"/>
+    </dirset>
+  </path>
+  
+  
+  <target name="compile.module.messenger" depends="compile.module.messenger.production,compile.module.messenger.tests" description="Compile module Messenger"/>
+  
+  <target name="compile.module.messenger.production" depends="register.custom.compilers" description="Compile module Messenger; production classes">
+    <mkdir dir="${messenger.output.dir}"/>
+    <javac2 destdir="${messenger.output.dir}" debug="${compiler.debug}" nowarn="${compiler.generate.no.warnings}" memorymaximumsize="${compiler.max.memory}" fork="true" executable="${module.jdk.bin.messenger}/javac">
+      <compilerarg line="${compiler.args.messenger}"/>
+      <bootclasspath refid="messenger.module.bootclasspath"/>
+      <classpath refid="messenger.module.production.classpath"/>
+      <src refid="messenger.module.sourcepath"/>
+      <patternset refid="excluded.from.compilation.messenger"/>
+    </javac2>
+    
+    <copy todir="${messenger.output.dir}">
+      <fileset dir="${module.messenger.basedir}/src">
+        <patternset refid="compiler.resources"/>
+        <type type="file"/>
+      </fileset>
+    </copy>
+  </target>
+  
+  <target name="compile.module.messenger.tests" depends="register.custom.compilers,compile.module.messenger.production" description="compile module Messenger; test classes" unless="skip.tests"/>
+  
+  <target name="clean.module.messenger" description="cleanup module">
+    <delete dir="${messenger.output.dir}"/>
+    <delete dir="${messenger.testoutput.dir}"/>
+  </target>
+</project>

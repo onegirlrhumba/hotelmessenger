@@ -1,0 +1,22 @@
+[
+  {
+    "id": 1,
+    "message": "**greeting** **customer_name**, and welcome to **hotel_name**! **room_number** is now ready for you. Enjoy your stay, and let us know if you need anything."
+
+  },
+  {
+    "id": 2,
+    "message": "**greeting** **customer_name**, we think you are fanstastic and a good person."
+  },
+  {
+    "id": 3,
+    "message": "This is **hotel_name** confirming a reservation for **customer_name** from **start_time** to **end_time**. We appreciate your business!"
+
+  },
+  {
+    "id": 4,
+    "message": "**greeting** **customer_name**, this is an automated reminder that checkout is at **end_time**. Thanks for staying with **hotel_name**"
+  }
+
+
+]
